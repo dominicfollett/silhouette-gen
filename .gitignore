@@ -1,3 +1,6 @@
 *.png
 *.jpeg
 *.jpg
+archive.py
+
+**__pycache__/

@@ -13,7 +13,7 @@ create-env:
 # Install the required packages
 install-packages:
 	@echo "Installing required packages..."
-	conda install --name $(ENV_NAME) -y numpy matplotlib scipy Pillow
+	conda install --name $(ENV_NAME) -y numpy matplotlib scipy Pillow tqdm
 
 # All target (create environment and install packages)
 all: create-env install-packages
