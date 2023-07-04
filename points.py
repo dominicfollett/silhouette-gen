@@ -68,7 +68,7 @@ def generate_random_points(max_random_points: int) -> list:
     if max_random_points < 1:
         raise ValueError("Number of random points must be greater than or equal to 3.")
 
-    number_of_random_points = np.random.randint(1, max_random_points)
+    number_of_random_points = np.random.randint(2, max_random_points)
 
     neighborhood_width = 2*np.pi/(number_of_random_points)
     buffer =  (2*np.pi) / (number_of_random_points ** 3)
