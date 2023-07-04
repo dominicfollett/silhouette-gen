@@ -1,4 +1,5 @@
 from points import generate_random_points
+from scipy import interpolate
 import sys
 import random
 
@@ -6,6 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.path as path
 import numpy as np
+
+np.random.seed(44)
 
 def plot_points(triplets, image_path):
     # Transform points to image grid
@@ -56,28 +59,35 @@ def plot_triplets(triplets, image_path):
     for i, triple in enumerate(sorted_triplets):
         next_triple = sorted_triplets[(i + 1) % len(sorted_triplets)]
 
+        # Draw a line to the next triple
+        ax.plot([triple[2][0], next_triple[0][0]], [triple[2][1], next_triple[0][1]], color='black', linewidth=1)
+        # Plot the point of local concavity
+        ax.plot(triple[1][0], triple[1][1], 'o', color='orange')
+
         if random.choice([True, False]):  # randomly choose to draw a line or curve
             # create path from triple and add as a patch
             triple_path = path.Path(triple, closed=False)
             patch = patches.PathPatch(triple_path, facecolor='white', lw=1)
             ax.add_patch(patch)
         else:
-            # draw Bezier curve
-            codes = [path.Path.MOVETO, path.Path.CURVE3, path.Path.CURVE3]
-            curve_path = path.Path(triple, codes)
-            patch = patches.PathPatch(curve_path, facecolor='white', lw=1)
-            ax.add_patch(patch)
+            """
+               Parametric splines treat x and y as functions of a third parameter, typically t.
+               You can think of t as the "time" parameter that travels along the curve.
+               For a 3-point curve, you might use t-values of [0, 0.5, 1] to represent the
+               start, middle, and end of your curve.
+            """
+            t = np.array([0, 0.5, 1])  # parameter
+            x = np.array([point[0] for point in triple])
+            y = np.array([point[1] for point in triple])
 
-        # draw a line or curve to the next triple
-        if random.choice([True, False]):
-            ax.plot([triple[2][0], next_triple[0][0]], [triple[2][1], next_triple[0][1]], color='black', linewidth=1)
-            pass
-        else:
-            mid_point = [(triple[2][0] + next_triple[0][0]) / 2, (triple[2][1] + next_triple[0][1]) / 2]
-            codes = [path.Path.MOVETO, path.Path.CURVE3, path.Path.CURVE3]
-            curve_path = path.Path([triple[2], mid_point, next_triple[0]], codes)
-            patch = patches.PathPatch(curve_path, facecolor='white', lw=1)
-            ax.add_patch(patch)
+            # Fit parametric spline
+            tck, u = interpolate.splprep([x, y], s=0, k=2)
+
+            unew = np.linspace(0, 1, 100)
+            out = interpolate.splev(unew, tck)
+
+            # Plot the results
+            ax.plot(x, y, 'x', out[0], out[1])
 
     ax.set_xlim(0, 512)
     ax.set_ylim(0, 512)
