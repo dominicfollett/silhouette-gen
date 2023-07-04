@@ -127,8 +127,8 @@ already_selected_arcs = []
 triplets = []
 final_triplets = []
 
-print("Neighborhood width: ", neighborhood_width)
-print("Buffer: ", buffer)
+# print("Neighborhood width: ", neighborhood_width)
+# print("Buffer: ", buffer)
 
 for n in range(number_of_random_points):
     selected_arc = get_largest_arc(already_selected_arcs, buffer)
@@ -138,8 +138,8 @@ for n in range(number_of_random_points):
         break
 
     arc_width = selected_arc[1] - selected_arc[0]
-    print("Arc width: ", arc_width)
-    print("Arc is not too small: ", not too_small(selected_arc[1], selected_arc[0], epsilon))
+    # print("Arc width: ", arc_width)
+    # print("Arc is not too small: ", not too_small(selected_arc[1], selected_arc[0], epsilon))
 
     # Get a random angle from the selected arc closer to the midpoint of the arc
     theta = np.random.uniform(selected_arc[0] + arc_width/2, selected_arc[1] - arc_width/2)
@@ -166,9 +166,10 @@ for n in range(number_of_random_points):
     cx, cy = b_x, b_y
 
     # We want to ensure that the between point is a local point of maximum concavity
-    # If the angle between the three points on a counter clockwise arc is greater than pi, then the between point is not a local point of maximum concavity
+    # If the angle between the three points on a counter clockwise arc is greater than pi,
+    # then the between point is not a local point of maximum concavity
     if angle >= np.pi:
-        print("Angle is greater than pi")
+        # This is a simple hack to get the between point to be a local point of maximum concavity
         b_x = 0
         b_y = 0
 
