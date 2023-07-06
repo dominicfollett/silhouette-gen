@@ -8,7 +8,7 @@ import matplotlib.patches as patches
 import matplotlib.path as path
 import numpy as np
 
-np.random.seed(44)
+# np.random.seed(44)
 
 def plot_points(triplets, image_path):
     # Transform points to image grid
@@ -94,6 +94,7 @@ def plot_triplets(triplets, image_path):
     ax.axis('off')  # Hide axes
 
     fig.savefig(image_path, dpi=300, bbox_inches='tight')
+    plt.close(fig)
 
 if __name__ == '__main__':
     # Get the number of images to generate
