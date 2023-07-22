@@ -120,5 +120,4 @@ if __name__ == '__main__':
 
         # create the image
         plot_triplets(points, image_path)
-        # plot_points(points, image_path)
 

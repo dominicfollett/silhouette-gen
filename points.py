@@ -71,7 +71,7 @@ def generate_random_points(max_random_points: int) -> list:
     number_of_random_points = np.random.randint(2, max_random_points)
 
     neighborhood_width = 2*np.pi/(number_of_random_points)
-    buffer =  (2*np.pi) / (number_of_random_points ** 3)
+    buffer =  (2*np.pi) / (number_of_random_points)
     r = 1  
     already_selected_arcs = []
     triplets = []
