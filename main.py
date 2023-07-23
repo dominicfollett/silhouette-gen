@@ -56,17 +56,26 @@ def plot_triplets(triplets, image_path):
 
     fig, ax = plt.subplots()
 
+    all_x = []
+    all_y = []
+
     for i, triple in enumerate(sorted_triplets):
         next_triple = sorted_triplets[(i + 1) % len(sorted_triplets)]
 
         # Draw a line to the next triple
         ax.plot([triple[2][0], next_triple[0][0]], [triple[2][1], next_triple[0][1]], color='black', linewidth=1)
-        # Plot the point of local concavity
+
+        # TODO: Plot the point of local concavity
         ax.plot(triple[1][0], triple[1][1], 'o', color='orange')
 
         if random.choice([True, False]):  # randomly choose to draw a line or curve
             # create path from triple and add as a patch
             triple_path = path.Path(triple, closed=False)
+
+            # Store the x, y coordinates for the line
+            all_x.extend([triple[0][0], triple[1][0], triple[2][0]])
+            all_y.extend([triple[0][1], triple[1][1], triple[2][1]])
+
             patch = patches.PathPatch(triple_path, facecolor='white', lw=1)
             ax.add_patch(patch)
         else:
@@ -86,8 +95,15 @@ def plot_triplets(triplets, image_path):
             unew = np.linspace(0, 1, 100)
             out = interpolate.splev(unew, tck)
 
+            # Store the x, y coordinates so we can fill the shape later
+            all_x.extend(out[0])
+            all_y.extend(out[1])
+
             # Plot the results
-            ax.plot(x, y, 'x', out[0], out[1])
+            ax.plot(out[0], out[1], color='black')
+
+    # Fill the area enclosed by the curves
+    ax.fill(all_x, all_y, color='black')
 
     ax.set_xlim(0, 512)
     ax.set_ylim(0, 512)
@@ -106,8 +122,8 @@ if __name__ == '__main__':
     # Get the number of random points to generate
     number_of_points = int(sys.argv[2])
 
-    if number_of_points < 1:
-        raise ValueError("Number of random points must be greater than or equal to 1.")
+    if number_of_points < 2:
+        raise ValueError("Number of random points must be greater than or equal to 2.")
     
     # Get the output directory
     output_directory = sys.argv[3]

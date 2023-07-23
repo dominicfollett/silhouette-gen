@@ -65,13 +65,13 @@ def get_largest_arc(already_selected_arcs, buffer) -> tuple:
     return largest_arc
 
 def generate_random_points(max_random_points: int) -> list:
-    if max_random_points < 1:
-        raise ValueError("Number of random points must be greater than or equal to 3.")
+    if max_random_points < 2:
+        raise ValueError("Number of random points must be greater than or equal to 2.")
 
     number_of_random_points = np.random.randint(2, max_random_points)
 
     neighborhood_width = 2*np.pi/(number_of_random_points)
-    buffer =  (2*np.pi) / (number_of_random_points)
+    buffer =  (2*np.pi) / (number_of_random_points*2)
     r = 1  
     already_selected_arcs = []
     triplets = []
