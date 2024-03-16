@@ -36,7 +36,7 @@ $ python3 main.py 10 10 out
 
 ## Contributing
 
-Contributions are welcome! If you would like to contribute please follow these steps:
+Contributions are welcome. If you would like to contribute please follow these steps:
 
 1. Fork the repository
 2. Create a new branch
