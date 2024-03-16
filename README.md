@@ -18,6 +18,10 @@ There's a couple of adjustments coming (time permitting)
 
 Not all outputs are 'neat' --  very rarely, curves will intersect.
 
+## Why?
+
+This is part of a larger project based on the Theory of Visual Parts by Donald Hoffman.
+
 ## Installation
 
 ```sh
